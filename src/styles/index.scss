@@ -1,0 +1,38 @@
+/* Global scss */
+
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  background: #F5F5F5;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+html {
+  height: 100%;
+}
+
+#app {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+a,
+a:focus,
+a:hover {
+  color: inherit;
+  outline: none;
+  text-decoration: none;
+}
+
+.el-input__inner {
+  &:focus {
+    border-color: black;
+  }
+}

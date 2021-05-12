@@ -1,0 +1,71 @@
+/* Element Variables */
+// Override Element UI variables
+/* Color
+-------------------------- */
+$--color-primary: #0055A5; // #1890ff
+$--color-white: #FFFFFF;
+$--color-black: #333333;
+
+$--color-success: #599E43; // #13ce66;
+$--color-warning: #ffba00;
+$--color-danger: #EF776E;
+$--color-info: #767571;
+
+$--color-text-secondary: #767571;
+$--color-text-regular: #333333;
+
+/* Border
+-------------------------- */
+$--border-color-base: #F5F5F5; // #8D95A0;
+$--border-color-light: #B7BBC0;
+$--border-color-lighter: #E9E9E9;
+$--border-color-extra-light: #F5F5F5;
+
+/* Font
+-------------------------- */
+$--font-size-extra-large: 36px;
+$--font-size-large: 24px;
+$--font-size-medium: 16px;
+$--font-size-base: 14px;
+$--font-size-small: 13px;
+$--font-size-extra-small: 12px;
+
+/* Button
+-------------------------- */
+$--button-font-weight: 400;
+$--button-primary-border-color: $--color-text-regular;
+$--button-primary-background-color: $--color-text-regular;
+
+$--button-padding-vertical: 13px;
+$--button-medium-padding-vertical: 13px;
+$--button-small-padding-vertical: 11px;
+$--button-mini-padding-vertical: 9px;
+
+/* Input
+-------------------------- */
+$--input-background-color: #F5F5F5;
+$--input-icon-color: $--color-primary;
+$--input-border-color: $--input-background-color;
+
+/* Background
+-------------------------- */
+$--background-color-base: #EEE9DE;
+$--table-border: 1px solid#dfe6ec;
+
+/* Table
+-------------------------- */
+$--table-font-color: $--color-text-secondary;
+$--table-header-font-color: $--color-text-regular;
+$--table-row-hover-background-color: #F5F5F5;
+
+/* Tag
+-------------------------- */
+$--tag-font-size: 14px;
+$--tag-border-radius: 15px;
+$--tag-padding: 0 10px;
+
+// Icon font path, required
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+// Apply overrided variables in Element UI
+@import '~element-ui/packages/theme-chalk/src/index';
