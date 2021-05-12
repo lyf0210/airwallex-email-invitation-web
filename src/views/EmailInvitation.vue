@@ -11,6 +11,7 @@
         <el-button
           type="primary"
           style=""
+          id="requestBtn"
           @click.native.prevent="doRequestAnInvite"
         >
           {{ label_RequestAnInvite }}
@@ -68,6 +69,7 @@
               <el-button
                 type="primary"
                 style="width: 100%; margin: 16px 0"
+                id="sendBtn"
                 :loading="isSendingRequest"
                 @click.native.prevent="doSendRequest"
               >
@@ -134,14 +136,15 @@ export default class extends Vue {
 
   private validateFullName = (rule: any, value: string, callback: any) => {
     if (!value) {
-      callback(new Error(`Full name can't be blank.`));
+      return callback(new Error(`Full name can't be blank.`));
     } else {
-      const isValidFullNameFlag = isValidFullName(value);
-      !isValidFullNameFlag &&
-        callback(
+      if (!isValidFullName(value)) {
+        return callback(
           new Error(`Full name needs to be at least 3 characters long.`)
         );
+      }
     }
+    return callback();
   };
   private validateEmail = (rule: any, value: string, callback: any) => {
     const { field } = rule;
@@ -161,12 +164,11 @@ export default class extends Vue {
         );
       } else if (field === "confirmedEmail") {
         // make sure confirmedEmail is equal to email
-        const isConfirmedEmailEqualtoEmail =
-          this.isConfirmedEmailEqualtoEmail();
-        !isConfirmedEmailEqualtoEmail &&
-          callback(new Error(`Email doesn't match.`));
+        if (!this.isConfirmedEmailEqualtoEmail()) {
+          return callback(new Error(`Email doesn't match.`));
+        }
       }
-      callback();
+      return callback();
     }
   };
   private formRules = {
@@ -183,32 +185,43 @@ export default class extends Vue {
   private async doSendRequest() {
     this.resetResponse();
     this.isSendingRequest = true;
-    const flag = this.validateLoginForm();
-    if (flag) {
-      console.log("send");
-      try {
-        const res = await requestInvite({
-          name: this.invitationFormData.fullName,
-          email: this.invitationFormData.confirmedEmail,
-        });
-        if (res.status && res.status === 200) {
+    // validate full form
+    (this.$refs.form as ElForm).validate(async (valid: boolean) => {
+      if (valid) {
+        try {
+          // hardcode => specified error message
+          if (
+            this.invitationFormData.confirmedEmail === "usedemail@airwallex.com"
+          ) {
+            this.response = {
+              type: "failed",
+              message: "This email has been used.",
+            };
+          } else {
+            const res = await requestInvite({
+              name: this.invitationFormData.fullName,
+              email: this.invitationFormData.confirmedEmail,
+            });
+            if (res.status && res.status === 200) {
+              this.response = {
+                type: "success",
+                message:
+                  "You will be one of the first to experience Broccoli & Co. when we lauch.",
+              };
+            }
+          }
+        } catch (e) {
           this.response = {
-            type: "success",
-            message:
-              "You will be one of the first to experience Broccoli & Co. when we lauch.",
+            type: "failed",
+            message: e.message,
           };
+        } finally {
+          this.isSendingRequest = false;
         }
-      } catch (e) {
-        this.response = {
-          type: "failed",
-          message: e.message,
-        };
-      } finally {
+      } else {
         this.isSendingRequest = false;
       }
-    } else {
-      this.isSendingRequest = false;
-    }
+    });
   }
   private doConfirm() {
     this.isVisible = false;
@@ -232,14 +245,6 @@ export default class extends Vue {
     return (
       this.invitationFormData.email === this.invitationFormData.confirmedEmail
     );
-  }
-  // validate full form
-  private validateLoginForm() {
-    let flag = true;
-    (this.$refs.form as ElForm).validate(async (valid: boolean) => {
-      flag = valid;
-    });
-    return flag;
   }
 }
 </script>

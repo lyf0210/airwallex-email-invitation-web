@@ -1,12 +1,38 @@
-import { shallowMount } from "@vue/test-utils";
-import HelloWorld from "@/components/HelloWorld.vue";
+import { mount, createLocalVue } from "@vue/test-utils";
+import EmailInvitation from "@/views/EmailInvitation.vue";
+import ElementUI from "element-ui";
 
-describe("HelloWorld.vue", () => {
-  it("renders props.msg when passed", () => {
-    const msg = "new message";
-    const wrapper = shallowMount(HelloWorld, {
-      propsData: { msg },
+const localVue = createLocalVue();
+localVue.use(ElementUI);
+
+describe("EmailInvitation.vue", () => {
+  const wrapper = mount(EmailInvitation, {
+    localVue,
+  });
+  it("open dialog", () => {
+    wrapper.find("#requestBtn").trigger("click");
+    expect((wrapper.vm as any).isVisible).toBe(true);
+  });
+  it("send request", async () => {
+    wrapper.setData({
+      invitationFormData: {
+        fullName: `test`,
+        email: `usedemail@airwallex.com`,
+        confirmedEmail: `usedemail@airwallex.com`,
+      },
     });
-    expect(wrapper.text()).toMatch(msg);
+    wrapper.find("#sendBtn").trigger("click");
+    expect((wrapper.vm as any).isSendingRequest).toBe(false);
+    expect((wrapper.vm as any).response.type).toBe("failed");
+
+    wrapper.setData({
+      invitationFormData: {
+        fullName: `test`,
+        email: `usedemail@airwall3ex.com`,
+        confirmedEmail: `usedemail@airwall3ex.com`,
+      },
+    });
+    await wrapper.find("#sendBtn").trigger("click");
+    expect((wrapper.vm as any).response.type).toBe("");
   });
 });

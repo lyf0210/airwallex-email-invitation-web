@@ -7,12 +7,12 @@ Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
-    path: "/",
+    path: "/home",
     name: "Home",
     component: Home,
   },
   {
-    path: "/email/invite",
+    path: "/",
     name: "EmailInvitation",
     component: EmailInvitation,
   },
