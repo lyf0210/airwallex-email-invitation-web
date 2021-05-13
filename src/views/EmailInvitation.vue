@@ -4,7 +4,7 @@
     <main class="main">
       <div class="first-tip">
         <div class="first-row">A better way</div>
-        <div class="first-row">to enjoy every day.</div>
+        <div class="second-row">to enjoy every day.</div>
       </div>
       <div class="second-tip">Be the first to know when we launch.</div>
       <div class="request-btn">
@@ -295,6 +295,16 @@ $warningRed: #ef776e;
       font-size: 48px;
       line-height: 1;
       color: $white;
+      .first-row {
+        animation-name: moveInLeft;
+        animation-duration: 1.5s;
+        animation-timing-function: ease-out;
+      }
+      .second-row {
+        animation-name: moveInRight;
+        animation-duration: 1.5s;
+        animation-timing-function: ease-out;
+      }
     }
     .second-tip {
       margin: 20px 0;
@@ -350,6 +360,32 @@ $warningRed: #ef776e;
         }
       }
     }
+  }
+}
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  80% {
+    transform: translateX(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  50% {
+    transform: translateX(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
   }
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
