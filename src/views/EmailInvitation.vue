@@ -352,6 +352,13 @@ $warningRed: #ef776e;
     }
   }
 }
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  .el-dialog__wrapper {
+    ::v-deep .el-dialog {
+      width: 250px !important;
+    }
+  }
+}
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-device-pixel-ratio: 2) {
   .el-dialog__wrapper {
     ::v-deep .el-dialog {
