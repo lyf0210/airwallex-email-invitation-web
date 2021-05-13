@@ -178,7 +178,10 @@ export default class extends Vue {
   };
   // call request method
   private doRequestAnInvite() {
-    console.log("request");
+    // if need reset form before open dialog
+    // if (this.$refs.form) {
+    //   (this.$refs.form as ElForm).resetFields();
+    // }
     this.isVisible = true;
   }
   // call send request method

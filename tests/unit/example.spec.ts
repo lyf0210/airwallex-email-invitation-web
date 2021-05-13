@@ -1,6 +1,8 @@
+import Vue from "vue";
 import { mount, createLocalVue } from "@vue/test-utils";
 import EmailInvitation from "@/views/EmailInvitation.vue";
 import ElementUI from "element-ui";
+import mockAxios from "../__mocks__/axios";
 
 const localVue = createLocalVue();
 localVue.use(ElementUI);
@@ -32,7 +34,17 @@ describe("EmailInvitation.vue", () => {
         confirmedEmail: `usedemail@airwall3ex.com`,
       },
     });
-    await wrapper.find("#sendBtn").trigger("click");
-    expect((wrapper.vm as any).response.type).toBe("");
+    mockAxios.post.mockImplementationOnce(() => {
+      return Promise.resolve({
+        data: {
+          status: 200,
+          data: "ok",
+        },
+      });
+    });
+    wrapper.find("#sendBtn").trigger("click");
+    Vue.nextTick(() => {
+      expect((wrapper.vm as any).response.type).toBe("");
+    });
   });
 });
